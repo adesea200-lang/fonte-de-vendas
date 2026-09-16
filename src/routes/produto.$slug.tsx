@@ -42,7 +42,8 @@ function ProdutoPage() {
   const options = useMemo(() => (data ? productOptions(data) : []), [data]);
   const gallery = useMemo(() => {
     if (!data) return [] as string[];
-    return [data.image_url, ...(data.gallery ?? [])].filter(Boolean) as string[];
+    const all = [data.image_url, ...(data.gallery ?? [])].filter(Boolean) as string[];
+    return Array.from(new Set(all));
   }, [data]);
 
   if (product.isLoading) {
