@@ -49,13 +49,24 @@ function AdminConfiguracoes() {
 
   const save = useMutation({
     mutationFn: async () => {
-      const payload: Record<string, unknown> = {};
-      FIELDS.forEach(({ key }) => {
-        const value = form[key] ?? "";
-        payload[key] =
-          key === "free_shipping_threshold" ? Number(value.replace(",", ".")) || 0 : value || null;
-      });
-      const { error } = await supabase.from("store_settings").update(payload).eq("id", 1);
+      const text = (key: string) => (form[key] ?? "").trim() || null;
+      const { error } = await supabase
+        .from("store_settings")
+        .update({
+          store_name: text("store_name") ?? "Fonte das Peitas",
+          logo_url: text("logo_url"),
+          whatsapp: text("whatsapp"),
+          email: text("email"),
+          instagram: text("instagram"),
+          tiktok: text("tiktok"),
+          facebook: text("facebook"),
+          address: text("address"),
+          contact_info: text("contact_info"),
+          announcement: text("announcement"),
+          free_shipping_threshold:
+            Number((form["free_shipping_threshold"] ?? "").replace(",", ".")) || 0,
+        })
+        .eq("id", 1);
       if (error) throw error;
     },
     onSuccess: () => {
