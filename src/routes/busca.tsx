@@ -4,8 +4,8 @@ import { Catalog } from "@/components/store/Catalog";
 import { StoreLayout } from "@/components/store/StoreLayout";
 
 export const Route = createFileRoute("/busca")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    q: typeof search["q"] === "string" ? search["q"] : "",
+  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+    q: typeof search["q"] === "string" ? search["q"] : undefined,
   }),
   head: () => ({
     meta: [
