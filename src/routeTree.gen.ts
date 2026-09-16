@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscaRouteImport } from './routes/busca'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as CategoriaSlugRouteImport } from './routes/categoria.$slug'
+import { Route as PedidoErroRouteImport } from './routes/pedido.erro'
+import { Route as PedidoPendenteRouteImport } from './routes/pedido.pendente'
+import { Route as PedidoSucessoRouteImport } from './routes/pedido.sucesso'
 import { Route as ProdutoSlugRouteImport } from './routes/produto.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +35,11 @@ const CarrinhoRoute = CarrinhoRouteImport.update({
   path: '/carrinho',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProdutosRoute = ProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
@@ -39,6 +48,21 @@ const ProdutosRoute = ProdutosRouteImport.update({
 const CategoriaSlugRoute = CategoriaSlugRouteImport.update({
   id: '/categoria/$slug',
   path: '/categoria/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoErroRoute = PedidoErroRouteImport.update({
+  id: '/pedido/erro',
+  path: '/pedido/erro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoPendenteRoute = PedidoPendenteRouteImport.update({
+  id: '/pedido/pendente',
+  path: '/pedido/pendente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PedidoSucessoRoute = PedidoSucessoRouteImport.update({
+  id: '/pedido/sucesso',
+  path: '/pedido/sucesso',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProdutoSlugRoute = ProdutoSlugRouteImport.update({
@@ -51,16 +75,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/carrinho': typeof CarrinhoRoute
+  '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/pedido/erro': typeof PedidoErroRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/carrinho': typeof CarrinhoRoute
+  '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/pedido/erro': typeof PedidoErroRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRoutesById {
@@ -68,8 +100,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/busca': typeof BuscaRoute
   '/carrinho': typeof CarrinhoRoute
+  '/checkout': typeof CheckoutRoute
   '/produtos': typeof ProdutosRoute
   '/categoria/$slug': typeof CategoriaSlugRoute
+  '/pedido/erro': typeof PedidoErroRoute
+  '/pedido/pendente': typeof PedidoPendenteRoute
+  '/pedido/sucesso': typeof PedidoSucessoRoute
   '/produto/$slug': typeof ProdutoSlugRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +114,36 @@ export interface FileRouteTypes {
     | '/'
     | '/busca'
     | '/carrinho'
+    | '/checkout'
     | '/produtos'
     | '/categoria/$slug'
+    | '/pedido/erro'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
     | '/produto/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/busca'
     | '/carrinho'
+    | '/checkout'
     | '/produtos'
     | '/categoria/$slug'
+    | '/pedido/erro'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
     | '/produto/$slug'
   id:
     | '__root__'
     | '/'
     | '/busca'
     | '/carrinho'
+    | '/checkout'
     | '/produtos'
     | '/categoria/$slug'
+    | '/pedido/erro'
+    | '/pedido/pendente'
+    | '/pedido/sucesso'
     | '/produto/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -103,8 +151,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscaRoute: typeof BuscaRoute
   CarrinhoRoute: typeof CarrinhoRoute
+  CheckoutRoute: typeof CheckoutRoute
   ProdutosRoute: typeof ProdutosRoute
   CategoriaSlugRoute: typeof CategoriaSlugRoute
+  PedidoErroRoute: typeof PedidoErroRoute
+  PedidoPendenteRoute: typeof PedidoPendenteRoute
+  PedidoSucessoRoute: typeof PedidoSucessoRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
 }
 
@@ -131,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarrinhoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/produtos': {
       id: '/produtos'
       path: '/produtos'
@@ -143,6 +202,27 @@ declare module '@tanstack/react-router' {
       path: '/categoria/$slug'
       fullPath: '/categoria/$slug'
       preLoaderRoute: typeof CategoriaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/erro': {
+      id: '/pedido/erro'
+      path: '/pedido/erro'
+      fullPath: '/pedido/erro'
+      preLoaderRoute: typeof PedidoErroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/pendente': {
+      id: '/pedido/pendente'
+      path: '/pedido/pendente'
+      fullPath: '/pedido/pendente'
+      preLoaderRoute: typeof PedidoPendenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pedido/sucesso': {
+      id: '/pedido/sucesso'
+      path: '/pedido/sucesso'
+      fullPath: '/pedido/sucesso'
+      preLoaderRoute: typeof PedidoSucessoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/produto/$slug': {
@@ -159,8 +239,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuscaRoute: BuscaRoute,
   CarrinhoRoute: CarrinhoRoute,
+  CheckoutRoute: CheckoutRoute,
   ProdutosRoute: ProdutosRoute,
   CategoriaSlugRoute: CategoriaSlugRoute,
+  PedidoErroRoute: PedidoErroRoute,
+  PedidoPendenteRoute: PedidoPendenteRoute,
+  PedidoSucessoRoute: PedidoSucessoRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,
 }
 export const routeTree = rootRouteImport
