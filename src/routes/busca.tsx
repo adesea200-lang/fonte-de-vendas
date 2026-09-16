@@ -4,7 +4,7 @@ import { Catalog } from "@/components/store/Catalog";
 import { StoreLayout } from "@/components/store/StoreLayout";
 
 export const Route = createFileRoute("/busca")({
-  validateSearch: (search: Record<string, unknown>): { q?: string } => ({
+  validateSearch: (search: Record<string, unknown>): { q?: string | undefined } => ({
     q: typeof search["q"] === "string" ? search["q"] : undefined,
   }),
   head: () => ({
@@ -22,7 +22,7 @@ function BuscaPage() {
   const { q } = Route.useSearch();
   return (
     <StoreLayout>
-      <Catalog key={q} title="Buscar" initialSearch={q} />
+      <Catalog key={q ?? ""} title="Buscar" initialSearch={q ?? ""} />
     </StoreLayout>
   );
 }
