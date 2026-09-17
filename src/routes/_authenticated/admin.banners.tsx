@@ -167,6 +167,7 @@ function AdminBanners() {
                 <div className="min-w-0">
                   <h3 className="truncate text-sm">{banner.title}</h3>
                   <p className="truncate text-xs text-foreground/40">
+                    {banner.placement === "card" ? "Banner clicável" : "Banner principal"} ·{" "}
                     {banner.button_label} → {banner.button_link}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
