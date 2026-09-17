@@ -21,6 +21,8 @@ const EMPTY = {
   button_label: "Comprar agora",
   button_link: "/produtos",
   sort_order: "1",
+  placement: "hero",
+  category_id: "",
 };
 
 function AdminBanners() {
@@ -34,6 +36,15 @@ function AdminBanners() {
       const { data, error } = await supabase.from("banners").select("*").order("sort_order");
       if (error) throw error;
       return (data ?? []) as Banner[];
+    },
+  });
+
+  const categorias = useQuery({
+    queryKey: ["admin/categorias-select"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      if (error) throw error;
+      return data ?? [];
     },
   });
 
@@ -53,6 +64,8 @@ function AdminBanners() {
         button_label: form.button_label.trim() || null,
         button_link: form.button_link.trim() || null,
         sort_order: Number(form.sort_order) || 1,
+        placement: form.placement === "card" ? "card" : "hero",
+        category_id: form.placement === "card" && form.category_id ? form.category_id : null,
       };
       if (editingId) {
         const { error } = await supabase.from("banners").update(payload).eq("id", editingId);
@@ -103,6 +116,27 @@ function AdminBanners() {
         }}
         className="mb-8 grid gap-4 rounded-xl border border-border bg-surface p-5 md:grid-cols-2"
       >
+        <select
+          className={field}
+          value={form.placement}
+          onChange={(e) => setForm({ ...form, placement: e.target.value })}
+        >
+          <option value="hero">Banner principal (carrossel da home)</option>
+          <option value="card">Banner clicável (grade de 4 na home)</option>
+        </select>
+        <select
+          className={field}
+          value={form.category_id}
+          onChange={(e) => setForm({ ...form, category_id: e.target.value })}
+          disabled={form.placement !== "card"}
+        >
+          <option value="">Categoria de destino (para banners clicáveis)</option>
+          {(categorias.data ?? []).map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
         <input className={field} placeholder="Título" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
         <input className={field} placeholder="Selo (ex: Coleção 2025)" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} />
         <input className={field} placeholder="Descrição" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
@@ -110,6 +144,10 @@ function AdminBanners() {
         <input className={field} placeholder="Texto do botão" value={form.button_label} onChange={(e) => setForm({ ...form, button_label: e.target.value })} />
         <input className={field} placeholder="Link do botão (/produtos)" value={form.button_link} onChange={(e) => setForm({ ...form, button_link: e.target.value })} />
         <input className={field} placeholder="Ordem" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: e.target.value })} />
+        <p className="text-xs text-foreground/40 md:col-span-2">
+          Tamanho ideal das imagens: banner principal 1920x1080 px (paisagem, fica bom no PC e no
+          celular) · banner clicável 900x1200 px (retrato 3:4).
+        </p>
         <button
           type="submit"
           className="inline-flex items-center justify-center gap-2 bg-gold px-6 py-3 text-xs font-bold uppercase tracking-widest text-background"
@@ -129,6 +167,7 @@ function AdminBanners() {
                 <div className="min-w-0">
                   <h3 className="truncate text-sm">{banner.title}</h3>
                   <p className="truncate text-xs text-foreground/40">
+                    {banner.placement === "card" ? "Banner clicável" : "Banner principal"} ·{" "}
                     {banner.button_label} → {banner.button_link}
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -154,6 +193,8 @@ function AdminBanners() {
                           button_label: banner.button_label ?? "",
                           button_link: banner.button_link ?? "",
                           sort_order: String(banner.sort_order),
+                          placement: banner.placement ?? "hero",
+                          category_id: banner.category_id ?? "",
                         });
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}

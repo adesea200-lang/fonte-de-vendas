@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { ShieldCheck, Truck, Sparkles } from "lucide-react";
 
+import { BannerCards } from "@/components/store/BannerCards";
+import { HeroCarousel } from "@/components/store/HeroCarousel";
 import { ProductCard, ProductCardSkeleton } from "@/components/store/ProductCard";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { bannersQuery, categoriesQuery, productsQuery, settingsQuery } from "@/lib/shop";
@@ -31,7 +33,9 @@ function Home() {
   const categories = useQuery(categoriesQuery);
   const settings = useQuery(settingsQuery);
 
-  const banner = (banners.data ?? [])[0];
+  const allBanners = banners.data ?? [];
+  const heroBanners = allBanners.filter((b) => b.placement !== "card");
+  const cardBanners = allBanners.filter((b) => b.placement === "card");
   const featured = (products.data ?? []).filter((p) => p.featured).slice(0, 4);
   const novidades = (products.data ?? []).slice(0, 8);
 
@@ -43,53 +47,15 @@ function Home() {
         </div>
       ) : null}
 
-      <section className="relative">
-        <div className="relative min-h-[70vh] overflow-hidden">
-          {banner?.image_url ? (
-            <img
-              src={banner.image_url}
-              alt={banner.title}
-              className="absolute inset-0 size-full object-cover"
-            />
-          ) : (
-            <div className="absolute inset-0 bg-surface" />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
-          <div className="relative mx-auto flex min-h-[70vh] max-w-6xl flex-col justify-end px-4 pb-12 pt-24">
-            <span className="mb-4 w-fit border border-gold/40 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-gold">
-              {banner?.subtitle ?? "Coleção 2025"}
-            </span>
-            <h1 className="max-w-2xl text-5xl leading-[0.95] md:text-7xl">
-              {banner?.title ?? "A braba do asfalto"}
-            </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-foreground/60">
-              {banner?.description ??
-                "Streetwear de tiragem limitada, feito pra quem carrega a rua na postura."}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to={(banner?.button_link as "/produtos") ?? "/produtos"}
-                className="inline-flex items-center gap-2 bg-gold px-8 py-4 text-xs font-bold uppercase tracking-widest text-background transition-transform hover:-translate-y-0.5"
-              >
-                {banner?.button_label ?? "Comprar agora"}
-                <ArrowRight className="size-4" />
-              </Link>
-              <Link
-                to="/produtos"
-                className="inline-flex items-center border border-border px-8 py-4 text-xs font-bold uppercase tracking-widest transition-colors hover:border-gold hover:text-gold"
-              >
-                Ver catálogo
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel banners={heroBanners} />
+
+      <BannerCards banners={cardBanners} categories={categories.data ?? []} />
 
       <section className="mx-auto grid max-w-6xl gap-4 px-4 py-10 md:grid-cols-3">
         {[
-          { icon: Truck, title: "Frete calculado na hora", text: "Informe o CEP e escolha PAC ou SEDEX." },
-          { icon: ShieldCheck, title: "Compra segura", text: "Pix ou cartão, tudo direto pelo site." },
-          { icon: Sparkles, title: "Tiragem limitada", text: "Peças exclusivas, sem reposição garantida." },
+          { icon: Truck, title: "Frete calculado na hora", text: "Informe o CEP e veja o valor exato." },
+          { icon: ShieldCheck, title: "Pagamento seguro", text: "Pix ou cartão pelo Mercado Pago." },
+          { icon: Sparkles, title: "Enviamos de Cruzeiro-SP", text: "Postagem rápida para todo o Brasil." },
         ].map((item) => (
           <div key={item.title} className="rounded-xl border border-border bg-surface p-5">
             <item.icon className="mb-3 size-5 text-gold" />
