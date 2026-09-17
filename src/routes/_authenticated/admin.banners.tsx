@@ -21,6 +21,8 @@ const EMPTY = {
   button_label: "Comprar agora",
   button_link: "/produtos",
   sort_order: "1",
+  placement: "hero",
+  category_id: "",
 };
 
 function AdminBanners() {
@@ -34,6 +36,15 @@ function AdminBanners() {
       const { data, error } = await supabase.from("banners").select("*").order("sort_order");
       if (error) throw error;
       return (data ?? []) as Banner[];
+    },
+  });
+
+  const categorias = useQuery({
+    queryKey: ["admin/categorias-select"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("categories").select("id, name").order("name");
+      if (error) throw error;
+      return data ?? [];
     },
   });
 
