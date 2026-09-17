@@ -21,18 +21,20 @@ export function HeroCarousel({ banners }: { banners: Banner[] }) {
     <section className="relative">
       <div className="relative h-[68vh] min-h-[440px] w-full overflow-hidden md:h-[72vh] md:min-h-[520px]">
         {slides.length === 0 ? <div className="absolute inset-0 bg-surface" /> : null}
-        {slides.map((slide, i) => (
-          <img
-            key={slide.id}
-            src={slide.image_url ?? ""}
-            alt={slide.title}
-            loading={i === 0 ? "eager" : "lazy"}
-            className={cn(
-              "absolute inset-0 size-full object-cover object-center transition-opacity duration-700",
-              i === index ? "opacity-100" : "opacity-0",
-            )}
-          />
-        ))}
+        {slides.map((slide, i) =>
+          slide.image_url ? (
+            <img
+              key={slide.id}
+              src={slide.image_url}
+              alt={slide.title}
+              loading={i === 0 ? "eager" : "lazy"}
+              className={cn(
+                "absolute inset-0 size-full object-cover object-center transition-opacity duration-700",
+                i === index ? "opacity-100" : "opacity-0",
+              )}
+            />
+          ) : null,
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/20" />
 
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-end px-4 pb-14 pt-24">
