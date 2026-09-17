@@ -176,11 +176,11 @@ function CheckoutPage() {
         },
       });
       clear();
-      if (paymentMethod === "pix") {
-        navigate({ to: "/pedido/pendente", search: { numero: result.orderNumber } });
-      } else {
-        navigate({ to: "/pedido/sucesso", search: { numero: result.orderNumber } });
+      if (paymentMethod === "cartao" && result.checkoutUrl) {
+        window.location.href = result.checkoutUrl;
+        return;
       }
+      navigate({ to: "/pedido/pendente", search: { numero: result.orderNumber } });
     } catch (error) {
       const message = error instanceof Error ? error.message : "Erro ao finalizar o pedido.";
       navigate({ to: "/pedido/erro", search: { motivo: message } });
@@ -281,8 +281,8 @@ function CheckoutPage() {
               <h2 className="mb-4 text-sm uppercase tracking-widest text-gold">Pagamento</h2>
               <div className="grid gap-3 md:grid-cols-2">
                 {([
-                  { id: "pix", label: "Pix", text: "Código gerado na confirmação", icon: QrCode },
-                  { id: "cartao", label: "Cartão de crédito", text: "Em até 6x sem juros", icon: CreditCard },
+                  { id: "pix", label: "Pix", text: "QR Code na hora, aprovação automática", icon: QrCode },
+                  { id: "cartao", label: "Cartão de crédito", text: "Pagamento seguro pelo Mercado Pago", icon: CreditCard },
                 ] as const).map((option) => (
                   <button
                     key={option.id}
