@@ -8,6 +8,13 @@
       "when": 1789575882235,
       "tag": "0000_create_shop_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1789619272191,
+      "tag": "0001_banners_placement_and_category",
+      "breakpoints": true
     }
   ]
 }

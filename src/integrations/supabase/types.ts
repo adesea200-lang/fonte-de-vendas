@@ -19,10 +19,12 @@ export type Database = {
           active: boolean
           button_label: string | null
           button_link: string | null
+          category_id: string | null
           created_at: string
           description: string | null
           id: string
           image_url: string | null
+          placement: string
           sort_order: number
           subtitle: string | null
           title: string
@@ -32,10 +34,12 @@ export type Database = {
           active?: boolean
           button_label?: string | null
           button_link?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          placement?: string
           sort_order?: number
           subtitle?: string | null
           title: string
@@ -45,16 +49,26 @@ export type Database = {
           active?: boolean
           button_label?: string | null
           button_link?: string | null
+          category_id?: string | null
           created_at?: string
           description?: string | null
           id?: string
           image_url?: string | null
+          placement?: string
           sort_order?: number
           subtitle?: string | null
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "banners_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       categories: {
         Row: {
@@ -189,7 +203,12 @@ export type Database = {
           number: string
           order_number: string
           payment_method: Database["public"]["Enums"]["payment_method"]
+          payment_provider: string | null
+          payment_reference: string | null
           payment_status: Database["public"]["Enums"]["payment_status"]
+          payment_url: string | null
+          pix_qr_base64: string | null
+          pix_qr_code: string | null
           shipping: number
           shipping_label: string | null
           state: string
@@ -215,7 +234,12 @@ export type Database = {
           number: string
           order_number?: string
           payment_method?: Database["public"]["Enums"]["payment_method"]
+          payment_provider?: string | null
+          payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
+          payment_url?: string | null
+          pix_qr_base64?: string | null
+          pix_qr_code?: string | null
           shipping?: number
           shipping_label?: string | null
           state: string
@@ -241,7 +265,12 @@ export type Database = {
           number?: string
           order_number?: string
           payment_method?: Database["public"]["Enums"]["payment_method"]
+          payment_provider?: string | null
+          payment_reference?: string | null
           payment_status?: Database["public"]["Enums"]["payment_status"]
+          payment_url?: string | null
+          pix_qr_base64?: string | null
+          pix_qr_code?: string | null
           shipping?: number
           shipping_label?: string | null
           state?: string
