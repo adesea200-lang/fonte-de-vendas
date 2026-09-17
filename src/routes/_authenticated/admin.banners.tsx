@@ -192,6 +192,8 @@ function AdminBanners() {
                           button_label: banner.button_label ?? "",
                           button_link: banner.button_link ?? "",
                           sort_order: String(banner.sort_order),
+                          placement: banner.placement ?? "hero",
+                          category_id: banner.category_id ?? "",
                         });
                         window.scrollTo({ top: 0, behavior: "smooth" });
                       }}
