@@ -130,11 +130,53 @@ export const criarPedido = createServerFn({ method: "POST" })
         .eq("id", product.id);
     }
 
+    const mp = await import("@/lib/mercadopago.server");
+    const payer = {
+      orderNumber: order.order_number,
+      amount: Number(order.total),
+      email: data.customer.email.toLowerCase(),
+      name: data.customer.name,
+      cpf: data.customer.cpf.replace(/\D/g, ""),
+    };
+
+    if (data.paymentMethod === "pix") {
+      const charge = await mp.criarPagamentoPix(payer);
+      await supabaseAdmin
+        .from("orders")
+        .update({
+          payment_provider: "mercadopago",
+          payment_reference: charge.paymentId,
+          payment_url: charge.ticketUrl,
+          pix_qr_code: charge.qrCode,
+          pix_qr_base64: charge.qrCodeBase64,
+        })
+        .eq("id", order.id);
+
+      return {
+        orderNumber: order.order_number,
+        total: Number(order.total),
+        paymentMethod: order.payment_method,
+        pixCode: charge.qrCode,
+        checkoutUrl: null as string | null,
+      };
+    }
+
+    const preference = await mp.criarPreferenciaCartao(payer);
+    await supabaseAdmin
+      .from("orders")
+      .update({
+        payment_provider: "mercadopago",
+        payment_reference: preference.preferenceId,
+        payment_url: preference.initPoint,
+      })
+      .eq("id", order.id);
+
     return {
       orderNumber: order.order_number,
       total: Number(order.total),
       paymentMethod: order.payment_method,
-      pixCode: buildPixCode(order.order_number, Number(order.total)),
+      pixCode: "",
+      checkoutUrl: preference.initPoint as string | null,
     };
   });
 
@@ -147,7 +189,7 @@ export const buscarPedido = createServerFn({ method: "GET" })
     const { data: order } = await supabaseAdmin
       .from("orders")
       .select(
-        "order_number, created_at, customer_name, total, subtotal, shipping, shipping_label, payment_method, payment_status, status, city, state",
+        "order_number, created_at, customer_name, total, subtotal, shipping, shipping_label, payment_method, payment_status, status, city, state, payment_url, pix_qr_code, pix_qr_base64",
       )
       .eq("order_number", data.orderNumber)
       .maybeSingle();
@@ -157,13 +199,6 @@ export const buscarPedido = createServerFn({ method: "GET" })
       total: Number(order.total),
       subtotal: Number(order.subtotal),
       shipping: Number(order.shipping),
-      pixCode: buildPixCode(order.order_number, Number(order.total)),
+      pixCode: order.pix_qr_code ?? "",
     };
   });
-
-/** Estrutura de código Pix copia e cola (payload estático, pronto para ser
- *  substituído pelo provedor de pagamento escolhido pela loja). */
-function buildPixCode(orderNumber: string, total: number): string {
-  const amount = total.toFixed(2);
-  return `00020126FONTEDASPEITAS520400005303986540${amount.length}${amount}5802BR5916FONTE DAS PEITAS6009SAO PAULO62${orderNumber.length + 4}05${orderNumber.length}${orderNumber}6304`;
-}
