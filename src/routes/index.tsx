@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, ShieldCheck, Truck, Sparkles } from "lucide-react";
+import { ShieldCheck, Truck, Sparkles } from "lucide-react";
 
+import { BannerCards } from "@/components/store/BannerCards";
+import { HeroCarousel } from "@/components/store/HeroCarousel";
 import { ProductCard, ProductCardSkeleton } from "@/components/store/ProductCard";
 import { StoreLayout } from "@/components/store/StoreLayout";
 import { bannersQuery, categoriesQuery, productsQuery, settingsQuery } from "@/lib/shop";
