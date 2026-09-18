@@ -44,6 +44,7 @@ function AdminConfiguracoes() {
       const value = (settings.data as Record<string, unknown>)[key];
       next[key] = value == null ? "" : String(value);
     });
+    next["logo_url"] = settings.data.logo_url ?? "";
     setForm(next);
   }, [settings.data]);
 
