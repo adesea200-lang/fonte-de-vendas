@@ -39,7 +39,7 @@ export function HeroCarousel({ banners }: { banners: Banner[] }) {
 
         <div className="relative mx-auto flex h-full max-w-6xl flex-col justify-end px-4 pb-14 pt-24">
           <span className="mb-4 w-fit border border-gold/40 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-gold">
-            {current?.subtitle ?? "Camisas de time"}
+                        {current?.subtitle ?? "Camisas de time • modelos retrô"}
           </span>
           <h1 className="max-w-2xl text-4xl leading-[0.95] sm:text-5xl md:text-7xl">
             {current?.title ?? "Fonte das Peitas"}
