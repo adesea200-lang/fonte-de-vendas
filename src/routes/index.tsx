@@ -15,7 +15,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Camisetas, moletons e acessórios streetwear com identidade própria. Frete calculado na hora e compra 100% pelo site.",
+                    "Camisas de time, modelos retrô e peças de futebol com identidade própria. Frete calculado na hora e compra 100% pelo site."
       },
       { property: "og:title", content: "Fonte das Peitas | Streetwear premium" },
       {
