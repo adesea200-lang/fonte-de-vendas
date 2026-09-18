@@ -53,9 +53,9 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl gap-4 px-4 py-10 md:grid-cols-3">
         {[
-          { icon: Truck, title: "Frete calculado na hora", text: "Informe o CEP e veja o valor exato." },
-          { icon: ShieldCheck, title: "Pagamento seguro", text: "Pix ou cartão pelo Mercado Pago." },
-          { icon: Sparkles, title: "Enviamos de Cruzeiro-SP", text: "Postagem rápida para todo o Brasil." },
+                    { icon: Truck, title: "Camisas para torcer", text: "Modelos para vestir a paixão pelo seu time." },
+          { icon: ShieldCheck, title: "Compra segura", text: "Pix ou cartão pelo Mercado Pago." },
+          { icon: Sparkles, title: "Do estádio para você", text: "Postagem rápida para todo o Brasil." },
         ].map((item) => (
           <div key={item.title} className="rounded-xl border border-border bg-surface p-5">
             <item.icon className="mb-3 size-5 text-gold" />
