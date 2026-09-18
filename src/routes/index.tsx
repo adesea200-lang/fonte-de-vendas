@@ -11,11 +11,11 @@ import { bannersQuery, categoriesQuery, productsQuery, settingsQuery } from "@/l
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Fonte das Peitas | Streetwear premium da quebrada" },
+            { title: "Fonte das Peitas | Camisas de time e futebol" },
       {
         name: "description",
         content:
-          "Camisetas, moletons e acessórios streetwear com identidade própria. Frete calculado na hora e compra 100% pelo site.",
+                    "Camisas de time, modelos retrô e peças de futebol com identidade própria. Frete calculado na hora e compra 100% pelo site."
       },
       { property: "og:title", content: "Fonte das Peitas | Streetwear premium" },
       {
@@ -53,9 +53,9 @@ function Home() {
 
       <section className="mx-auto grid max-w-6xl gap-4 px-4 py-10 md:grid-cols-3">
         {[
-          { icon: Truck, title: "Frete calculado na hora", text: "Informe o CEP e veja o valor exato." },
-          { icon: ShieldCheck, title: "Pagamento seguro", text: "Pix ou cartão pelo Mercado Pago." },
-          { icon: Sparkles, title: "Enviamos de Cruzeiro-SP", text: "Postagem rápida para todo o Brasil." },
+                    { icon: Truck, title: "Camisas para torcer", text: "Modelos para vestir a paixão pelo seu time." },
+          { icon: ShieldCheck, title: "Compra segura", text: "Pix ou cartão pelo Mercado Pago." },
+          { icon: Sparkles, title: "Do estádio para você", text: "Postagem rápida para todo o Brasil." },
         ].map((item) => (
           <div key={item.title} className="rounded-xl border border-border bg-surface p-5">
             <item.icon className="mb-3 size-5 text-gold" />
@@ -84,7 +84,7 @@ function Home() {
 
       <section className="mx-auto max-w-6xl px-4 py-10">
         <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="text-2xl text-gold md:text-3xl">Destaques</h2>
+                    <h2 className="text-2xl text-gold md:text-3xl">Camisas em destaque</h2>
           <Link to="/produtos" className="text-xs uppercase tracking-widest text-foreground/50 hover:text-gold">
             Ver tudo
           </Link>
@@ -99,7 +99,7 @@ function Home() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-6">
-        <h2 className="mb-6 text-2xl text-gold md:text-3xl">Novidades</h2>
+                <h2 className="mb-6 text-2xl text-gold md:text-3xl">Chegaram na coleção</h2>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {products.isLoading
             ? Array.from({ length: 4 }).map((_, index) => <ProductCardSkeleton key={index} />)
