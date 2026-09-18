@@ -11,7 +11,7 @@ import { bannersQuery, categoriesQuery, productsQuery, settingsQuery } from "@/l
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Fonte das Peitas | Streetwear premium da quebrada" },
+            { title: "Fonte das Peitas | Camisas de time e futebol" },
       {
         name: "description",
         content:
