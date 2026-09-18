@@ -14,7 +14,7 @@ export function ProductCard({ product }: { product: Product }) {
       params={{ slug: product.slug }}
       className="group block animate-fade-up"
     >
-      <div className="relative mb-3 aspect-[3/4] overflow-hidden rounded-lg bg-surface outline outline-1 -outline-offset-1 outline-border">
+            <div className="relative mb-3 aspect-[3/4] overflow-hidden rounded-lg bg-surface outline outline-1 -outline-offset-1 outline-border before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-1 before:bg-gold">
         {product.image_url ? (
           <img
             src={product.image_url}
