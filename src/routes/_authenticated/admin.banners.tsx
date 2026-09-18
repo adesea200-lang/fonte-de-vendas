@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { supabase } from "@/integrations/supabase/client";
 import type { Banner } from "@/lib/shop";
 import { cn } from "@/lib/utils";
@@ -140,14 +141,15 @@ function AdminBanners() {
         <input className={field} placeholder="Título" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
         <input className={field} placeholder="Selo (ex: Coleção 2025)" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} />
         <input className={field} placeholder="Descrição" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-        <input className={field} placeholder="URL da imagem" value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
+        <ImageUploadField
+          label="Foto do banner"
+          help={form.placement === "card" ? "Recomendado: 900 × 1200 px, formato vertical 3:4." : "Recomendado: 1920 × 1080 px, formato horizontal 16:9. Mantenha o assunto no centro para ficar bom no celular."}
+          value={form.image_url}
+          onChange={(value) => setForm({ ...form, image_url: String(value) })}
+        />
         <input className={field} placeholder="Texto do botão" value={form.button_label} onChange={(e) => setForm({ ...form, button_label: e.target.value })} />
         <input className={field} placeholder="Link do botão (/produtos)" value={form.button_link} onChange={(e) => setForm({ ...form, button_link: e.target.value })} />
         <input className={field} placeholder="Ordem" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: e.target.value })} />
-        <p className="text-xs text-foreground/40 md:col-span-2">
-          Tamanho ideal das imagens: banner principal 1920x1080 px (paisagem, fica bom no PC e no
-          celular) · banner clicável 900x1200 px (retrato 3:4).
-        </p>
         <button
           type="submit"
           className="inline-flex items-center justify-center gap-2 bg-gold px-6 py-3 text-xs font-bold uppercase tracking-widest text-background"
@@ -163,7 +165,11 @@ function AdminBanners() {
           {(banners.data ?? []).map((banner) => (
             <div key={banner.id} className="rounded-xl border border-border bg-surface p-4">
               <div className="grid grid-cols-[72px_minmax(0,1fr)] gap-4">
-                <img src={banner.image_url ?? ""} alt="" className="h-16 w-18 shrink-0 rounded-lg object-cover" />
+                {banner.image_url ? (
+                  <img src={banner.image_url} alt="" className="h-16 w-18 shrink-0 rounded-lg object-cover" />
+                ) : (
+                  <div className="h-16 w-18 shrink-0 rounded-lg bg-background" />
+                )}
                 <div className="min-w-0">
                   <h3 className="truncate text-sm">{banner.title}</h3>
                   <p className="truncate text-xs text-foreground/40">

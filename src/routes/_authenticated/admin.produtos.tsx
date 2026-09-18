@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { supabase } from "@/integrations/supabase/client";
 import { brl, slugify } from "@/lib/format";
 import type { Category, Product } from "@/lib/shop";
@@ -309,8 +310,21 @@ function AdminProdutos() {
             <Input label="Subcategoria" value={form.subcategory} onChange={(v) => setForm({ ...form, subcategory: v })} />
             <Input label="Estoque" value={form.stock} onChange={(v) => setForm({ ...form, stock: v })} />
             <Input label="Descrição" textarea value={form.description} onChange={(v) => setForm({ ...form, description: v })} className="md:col-span-4" />
-            <Input label="Imagem principal (URL)" value={form.image_url} onChange={(v) => setForm({ ...form, image_url: v })} className="md:col-span-2" />
-            <Input label="Galeria (uma URL por linha)" textarea value={form.gallery} onChange={(v) => setForm({ ...form, gallery: v })} className="md:col-span-2" />
+            <ImageUploadField
+              label="Foto principal do produto"
+              help="Recomendado: 1200 × 1500 px, formato vertical 4:5. Fundo limpo e camisa centralizada."
+              value={form.image_url}
+              onChange={(value) => setForm({ ...form, image_url: String(value) })}
+              className="md:col-span-2"
+            />
+            <ImageUploadField
+              label="Galeria do produto"
+              help="Use também 1200 × 1500 px em todas as fotos para manter o catálogo uniforme."
+              value={form.gallery.split("\n").filter(Boolean)}
+              onChange={(value) => setForm({ ...form, gallery: Array.isArray(value) ? value.join("\n") : value })}
+              multiple
+              className="md:col-span-2"
+            />
             <Input label="Peso (g)" value={form.weight_grams} onChange={(v) => setForm({ ...form, weight_grams: v })} />
             <Input
               label="Variações (ex: Tamanho: P, M, G)"
@@ -352,11 +366,11 @@ function AdminProdutos() {
           {list.map((product) => (
             <div key={product.id} className="rounded-xl border border-border bg-surface p-4">
               <div className="grid grid-cols-[56px_minmax(0,1fr)] gap-4">
-                <img
-                  src={product.image_url ?? ""}
-                  alt=""
-                  className="size-14 shrink-0 rounded-lg object-cover"
-                />
+                {product.image_url ? (
+                  <img src={product.image_url} alt="" className="size-14 shrink-0 rounded-lg object-cover" />
+                ) : (
+                  <div className="size-14 shrink-0 rounded-lg bg-background" />
+                )}
                 <div className="min-w-0">
                   <h3 className="truncate text-sm">{product.name}</h3>
                   <p className="text-xs text-foreground/40">

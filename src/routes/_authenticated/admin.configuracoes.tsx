@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/admin/configuracoes")({
@@ -12,7 +13,6 @@ export const Route = createFileRoute("/_authenticated/admin/configuracoes")({
 
 const FIELDS = [
   { key: "store_name", label: "Nome da loja" },
-  { key: "logo_url", label: "Logo (URL)" },
   { key: "whatsapp", label: "WhatsApp" },
   { key: "email", label: "E-mail de contato" },
   { key: "instagram", label: "Instagram" },
@@ -89,6 +89,13 @@ function AdminConfiguracoes() {
           }}
           className="grid max-w-3xl gap-4 rounded-xl border border-border bg-surface p-5 md:grid-cols-2"
         >
+          <ImageUploadField
+            label="Logo da loja"
+            help="Recomendado: PNG transparente com pelo menos 800 px de largura."
+            value={form["logo_url"] ?? ""}
+            onChange={(value) => setForm({ ...form, logo_url: String(value) })}
+            className="md:col-span-2"
+          />
           {FIELDS.map((item) => (
             <label key={item.key} className="block">
               <span className="mb-1 block text-[10px] uppercase tracking-widest text-foreground/40">
