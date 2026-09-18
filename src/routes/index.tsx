@@ -84,7 +84,7 @@ function Home() {
 
       <section className="mx-auto max-w-6xl px-4 py-10">
         <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="text-2xl text-gold md:text-3xl">Destaques</h2>
+                    <h2 className="text-2xl text-gold md:text-3xl">Camisas em destaque</h2>
           <Link to="/produtos" className="text-xs uppercase tracking-widest text-foreground/50 hover:text-gold">
             Ver tudo
           </Link>
