@@ -29,6 +29,7 @@ import { Route as AuthenticatedAdminConfiguracoesRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminProdutosRouteImport } from './routes/_authenticated/admin.produtos'
 import { Route as AuthenticatedAdminPedidosIndexRouteImport } from './routes/_authenticated/admin.pedidos.index'
 import { Route as AuthenticatedAdminPedidosIdRouteImport } from './routes/_authenticated/admin.pedidos.$id'
+import { Route as ApiPublicStoreImagesNameRouteImport } from './routes/api/public/store-images.$name'
 import { Route as ApiPublicWebhooksMercadopagoRouteImport } from './routes/api/public/webhooks/mercadopago'
 
 const IndexRoute = IndexRouteImport.update({
@@ -137,6 +138,12 @@ const AuthenticatedAdminPedidosIdRoute =
     path: '/admin/pedidos/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicStoreImagesNameRoute =
+  ApiPublicStoreImagesNameRouteImport.update({
+    id: '/api/public/store-images/$name',
+    path: '/api/public/store-images/$name',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicWebhooksMercadopagoRoute =
   ApiPublicWebhooksMercadopagoRouteImport.update({
     id: '/api/public/webhooks/mercadopago',
@@ -163,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/admin/pedidos/$id': typeof AuthenticatedAdminPedidosIdRoute
+  '/api/public/store-images/$name': typeof ApiPublicStoreImagesNameRoute
   '/api/public/webhooks/mercadopago': typeof ApiPublicWebhooksMercadopagoRoute
   '/admin/pedidos/': typeof AuthenticatedAdminPedidosIndexRoute
 }
@@ -185,6 +193,7 @@ export interface FileRoutesByTo {
   '/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/admin/pedidos/$id': typeof AuthenticatedAdminPedidosIdRoute
+  '/api/public/store-images/$name': typeof ApiPublicStoreImagesNameRoute
   '/api/public/webhooks/mercadopago': typeof ApiPublicWebhooksMercadopagoRoute
   '/admin/pedidos': typeof AuthenticatedAdminPedidosIndexRoute
 }
@@ -209,6 +218,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/produtos': typeof AuthenticatedAdminProdutosRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/admin/pedidos/$id': typeof AuthenticatedAdminPedidosIdRoute
+  '/api/public/store-images/$name': typeof ApiPublicStoreImagesNameRoute
   '/api/public/webhooks/mercadopago': typeof ApiPublicWebhooksMercadopagoRoute
   '/_authenticated/admin/pedidos/': typeof AuthenticatedAdminPedidosIndexRoute
 }
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/admin/produtos'
     | '/admin/'
     | '/admin/pedidos/$id'
+    | '/api/public/store-images/$name'
     | '/api/public/webhooks/mercadopago'
     | '/admin/pedidos/'
   fileRoutesByTo: FileRoutesByTo
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/admin/produtos'
     | '/admin'
     | '/admin/pedidos/$id'
+    | '/api/public/store-images/$name'
     | '/api/public/webhooks/mercadopago'
     | '/admin/pedidos'
   id:
@@ -278,6 +290,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/produtos'
     | '/_authenticated/admin/'
     | '/_authenticated/admin/pedidos/$id'
+    | '/api/public/store-images/$name'
     | '/api/public/webhooks/mercadopago'
     | '/_authenticated/admin/pedidos/'
   fileRoutesById: FileRoutesById
@@ -295,6 +308,7 @@ export interface RootRouteChildren {
   PedidoPendenteRoute: typeof PedidoPendenteRoute
   PedidoSucessoRoute: typeof PedidoSucessoRoute
   ProdutoSlugRoute: typeof ProdutoSlugRoute
+  ApiPublicStoreImagesNameRoute: typeof ApiPublicStoreImagesNameRoute
   ApiPublicWebhooksMercadopagoRoute: typeof ApiPublicWebhooksMercadopagoRoute
 }
 
@@ -440,6 +454,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPedidosIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/store-images/$name': {
+      id: '/api/public/store-images/$name'
+      path: '/api/public/store-images/$name'
+      fullPath: '/api/public/store-images/$name'
+      preLoaderRoute: typeof ApiPublicStoreImagesNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/webhooks/mercadopago': {
       id: '/api/public/webhooks/mercadopago'
       path: '/api/public/webhooks/mercadopago'
@@ -488,6 +509,7 @@ const rootRouteChildren: RootRouteChildren = {
   PedidoPendenteRoute: PedidoPendenteRoute,
   PedidoSucessoRoute: PedidoSucessoRoute,
   ProdutoSlugRoute: ProdutoSlugRoute,
+  ApiPublicStoreImagesNameRoute: ApiPublicStoreImagesNameRoute,
   ApiPublicWebhooksMercadopagoRoute: ApiPublicWebhooksMercadopagoRoute,
 }
 export const routeTree = rootRouteImport

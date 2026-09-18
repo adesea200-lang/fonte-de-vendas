@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import { supabase } from "@/integrations/supabase/client";
 import { slugify } from "@/lib/format";
 import type { Category } from "@/lib/shop";
@@ -87,7 +88,7 @@ function AdminCategorias() {
           event.preventDefault();
           create.mutate();
         }}
-        className="mb-8 grid gap-4 rounded-xl border border-border bg-surface p-5 md:grid-cols-4"
+        className="mb-8 grid gap-4 rounded-xl border border-border bg-surface p-5 md:grid-cols-2"
       >
         <input
           value={name}
@@ -95,11 +96,11 @@ function AdminCategorias() {
           placeholder="Nome da categoria"
           className="rounded-lg border border-border bg-background px-4 py-3 text-sm outline-none focus:border-gold"
         />
-        <input
+        <ImageUploadField
+          label="Foto da categoria"
+          help="Recomendado: 1200 × 1500 px, formato vertical 4:5."
           value={imageUrl}
-          onChange={(event) => setImageUrl(event.target.value)}
-          placeholder="URL da imagem"
-          className="rounded-lg border border-border bg-background px-4 py-3 text-sm outline-none focus:border-gold"
+          onChange={(value) => setImageUrl(String(value))}
         />
         <input
           value={description}
